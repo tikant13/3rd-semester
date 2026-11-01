@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
 #include "Chaintable.h"
+#include "Fold.h"
 using namespace std;
 
-ChainTable::ChainTable(int startCapacity, bool grow){
+ChainTable::ChainTable(int startCapacity){
     if (startCapacity < 1){
         startCapacity = 1;
     }
     capacity = startCapacity;
-    autoGrow = grow;
     table = new linkedList[capacity]; // в каждой корзине пустой список
 }
 
@@ -16,13 +16,9 @@ ChainTable::~ChainTable(){
     delete[] table; // деструктор каждого списка сам удалит его узлы
 }
 
-// h = h * 31 + символ, в конце берём остаток от деления на число корзин
+// Хеш методом свёртки: сумма частей ключа, затем остаток от деления на число корзин
 int ChainTable::hash(const string& key){
-    unsigned long long h = 0;
-    for (int i = 0; i < (int)key.size(); ++i){
-        h = h * 31 + (unsigned char)key[i];
-    }
-    return h % capacity;
+    return foldHash(key) % capacity;
 }
 
 // Идём по цепочке корзины b и ищем запись с нужным ключом
@@ -50,12 +46,9 @@ bool ChainTable::Insert(const string& key, const string& value){
         table[b].pushFront(key + "\t" + value);
         return false;
     }
-    if (table[b].Size() > 0){
-        ++collisions; // корзина уже занята другим ключом
-    }
     table[b].pushFront(key + "\t" + value); // вставка в начало цепочки за O(1)
     ++count;
-    if (autoGrow && count * 4 > capacity * 3){ // заполнено больше 75%
+    if (count * 4 > capacity * 3){ // заполнено больше 75%
         rehash();
     }
     return true;
@@ -83,7 +76,6 @@ bool ChainTable::Remove(const string& key){
 
 // Номер корзины зависит от capacity, поэтому после увеличения все записи раскладываем заново
 void ChainTable::rehash(){
-    ++rehashes;
     int oldCapacity = capacity;
     linkedList* oldTable = table;
 
@@ -104,6 +96,10 @@ int ChainTable::Size(){
     return count;
 }
 
+int ChainTable::Capacity(){
+    return capacity;
+}
+
 void ChainTable::Print(){
     if (count == 0){
         cout << "Пустая" << endl;
@@ -122,45 +118,4 @@ void ChainTable::Print(){
         }
         cout << endl;
     }
-}
-
-int ChainTable::Capacity(){
-    return capacity;
-}
-
-double ChainTable::LoadFactor(){
-    return (double)count / capacity;
-}
-
-long long ChainTable::Collisions(){
-    return collisions;
-}
-
-int ChainTable::Rehashes(){
-    return rehashes;
-}
-
-int ChainTable::MaxChain(){
-    int best = 0;
-    for (int b = 0; b < capacity; ++b){
-        int n = table[b].Size();
-        if (n > best){
-            best = n;
-        }
-    }
-    return best;
-}
-
-// Чтобы найти k-й элемент цепочки, нужно k сравнений.
-// В цепочке длины L это 1 + 2 + ... + L = L(L+1)/2 сравнений на все её элементы
-double ChainTable::AvgProbes(){
-    if (count == 0){
-        return 0;
-    }
-    long long total = 0;
-    for (int b = 0; b < capacity; ++b){
-        long long n = table[b].Size();
-        total += n * (n + 1) / 2;
-    }
-    return (double)total / count;
 }

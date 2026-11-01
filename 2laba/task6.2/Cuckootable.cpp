@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
 #include "Cuckootable.h"
+#include "Fold.h"
 using namespace std;
 
 const int MAX_KICKS = 100; // сколько раз можно выталкивать подряд, потом считаем, что попали в цикл
 
-CuckooTable::CuckooTable(int startCapacity, bool grow){
+CuckooTable::CuckooTable(int startCapacity){
     if (startCapacity < 1){
         startCapacity = 1;
     }
-    autoGrow = grow;
     allocate(startCapacity);
 }
 
@@ -39,7 +39,7 @@ void CuckooTable::freeTables(){
     keys1 = vals1 = keys2 = vals2 = nullptr;
 }
 
-// Полиномиальный хеш: h = h * base + символ, в конце остаток от деления на размер таблицы
+// h = h * base + символ, в конце остаток от деления на размер таблицы
 int CuckooTable::hash(const string& key, int base){
     unsigned long long h = 0;
     for (int i = 0; i < (int)key.size(); ++i){
@@ -48,9 +48,10 @@ int CuckooTable::hash(const string& key, int base){
     return h % capacity;
 }
 
-// Две разные хеш-функции получаются из одной, если взять разные основания
+// Первая хеш-функция - метод свёртки, вторая - полиномиальный хеш.
+// Функции должны быть разными, иначе у ключа было бы одно место вместо двух
 int CuckooTable::h1(const string& key){
-    return hash(key, 31);
+    return foldHash(key) % capacity;
 }
 
 int CuckooTable::h2(const string& key){
@@ -73,7 +74,6 @@ bool CuckooTable::place(string& key, string& value){
         vals1->Set(i, value);
         key = oldKey;
         value = oldValue;
-        ++kicks;
 
         int j = h2(key);
         if (keys2->At(j).empty()){
@@ -87,7 +87,6 @@ bool CuckooTable::place(string& key, string& value){
         vals2->Set(j, value);
         key = oldKey;
         value = oldValue;
-        ++kicks;
     }
     return false; // зациклились, в key/value осталась пара без места
 }
@@ -96,7 +95,6 @@ bool CuckooTable::place(string& key, string& value){
 // Хеш-функции берут остаток от деления на размер, поэтому с новым размером ключи разложатся по-другому.
 // Если и так не получилось - увеличиваем ещё в 2 раза
 void CuckooTable::rehash(int newCap, const string& extraKey, const string& extraValue){
-    ++rehashes;
     Array allKeys;
     Array allValues;
     for (int i = 0; i < capacity; ++i){
@@ -132,7 +130,6 @@ void CuckooTable::rehash(int newCap, const string& extraKey, const string& extra
         }
         freeTables(); // не влезло - пробуем таблицу побольше
         cap *= 2;
-        ++rehashes;
     }
 }
 
@@ -152,17 +149,13 @@ bool CuckooTable::Insert(const string& key, const string& value){
     }
 
     // при заполнении больше 45% кукушка начинает часто зацикливаться, поэтому увеличиваем заранее
-    if (autoGrow && (count + 1) * 100 > capacity * 2 * 45){
+    if ((count + 1) * 100 > capacity * 2 * 45){
         rehash(capacity * 2, "", "");
     }
 
     string k = key;
     string v = value;
     if (!place(k, v)){
-        if (!autoGrow){
-            failed = true; // режим эксперимента: просто фиксируем неудачу
-            return false;
-        }
         rehash(capacity * 2, k, v); // перестраиваем вместе с парой, оставшейся без места
     }
     ++count;
@@ -170,13 +163,16 @@ bool CuckooTable::Insert(const string& key, const string& value){
 }
 
 bool CuckooTable::Get(const string& key, string& value){
+    if (key.empty()){
+        return false;
+    }
     int i = h1(key);
-    if (!key.empty() && keys1->At(i) == key){
+    if (keys1->At(i) == key){
         value = vals1->At(i);
         return true;
     }
     int j = h2(key);
-    if (!key.empty() && keys2->At(j) == key){
+    if (keys2->At(j) == key){
         value = vals2->At(j);
         return true;
     }
@@ -223,24 +219,4 @@ void CuckooTable::Print(){
             cout << "T2[" << i << "] " << keys2->At(i) << "=" << vals2->At(i) << endl;
         }
     }
-}
-
-int CuckooTable::Capacity(){
-    return capacity * 2;
-}
-
-double CuckooTable::LoadFactor(){
-    return (double)count / (capacity * 2);
-}
-
-long long CuckooTable::Kicks(){
-    return kicks;
-}
-
-int CuckooTable::Rehashes(){
-    return rehashes;
-}
-
-bool CuckooTable::Failed(){
-    return failed;
 }
