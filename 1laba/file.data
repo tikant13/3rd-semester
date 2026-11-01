@@ -1,3 +1,6 @@
-M MM 1 99 2
-F FFFF q 1 2
-T T 13 B 8 R 1 B 6 R 11 B 22 R 15 B 25 B 27 R
+M MM 8 6 3 e
+F F 92 3 2 1
+L L 5 3 56 4 1
+S S 1 2 3
+Q Q 3 5 8
+T T 9 B 5 B 34 R 13 B 14 R 45 B
