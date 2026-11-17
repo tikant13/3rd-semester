@@ -1,0 +1,53 @@
+# ЛР3: компиляция, запуск всех тестов и HTML-отчёт
+# Исправлено по твоему скриншоту:
+# - tests/tests_boost.cpp
+# - tests/tests_google.cpp
+# - tests/tests_catch.cpp
+# - build/boost, build/google, build/catch — только для результатов компиляции
+#
+# Можно выполнять команды по очереди.
+# Если компиляция или запуск тестов завершились ошибкой, дальше пока не переходи.
+
+# 1. Перейти в папку ЛР3
+cd ~/3st-semester/3laba
+
+# 2. Проверить, что тесты лежат именно в tests/
+ls tests/tests_boost.cpp tests/tests_google.cpp tests/tests_catch.cpp
+
+# 3. Создать папки сборки
+mkdir -p build/boost build/google build/catch
+
+# 4. Очистить старые данные покрытия (исходные файлы НЕ удаляются)
+find build -type f \( -name '*.gcda' -o -name '*.gcno' \) -delete
+rm -f ./*.gcda ./*.gcno
+
+# 5. Boost.Test: компиляция и запуск
+g++ -std=c++17 --coverage -O0 -g -I. tests/tests_boost.cpp array.cpp linkedList.cpp doublyList.cpp stack.cpp Queue.cpp Rbtree.cpp Chaintable.cpp Cuckootable.cpp -o build/boost/test_boost
+./build/boost/test_boost
+
+# 6. GoogleTest: компиляция и запуск
+g++ -std=c++17 --coverage -O0 -g -I. tests/tests_google.cpp array.cpp linkedList.cpp doublyList.cpp stack.cpp Queue.cpp Rbtree.cpp Chaintable.cpp Cuckootable.cpp -o build/google/test_google -lgtest_main -lgtest -pthread
+./build/google/test_google
+
+# 7. Catch2 v3: компиляция и запуск
+g++ -std=c++17 --coverage -O0 -g -I. tests/tests_catch.cpp array.cpp linkedList.cpp doublyList.cpp stack.cpp Queue.cpp Rbtree.cpp Chaintable.cpp Cuckootable.cpp -o build/catch/test_catch -lCatch2Main -lCatch2
+./build/catch/test_catch
+
+# 8. Создать общий HTML-отчёт (НЕ учитывать файлы самих тестов)
+gcovr -r . build --exclude '.*tests_.*\.cpp$' --html-details -o build/coverage_report.html
+
+# 9. Открыть НОВЫЙ отчёт
+xdg-open build/coverage_report.html
+
+# 10. Посмотреть проценты покрытия также в терминале
+gcovr -r . build --exclude '.*tests_.*\.cpp$'
+
+# ДОПОЛНИТЕЛЬНО (необязательно): отчёт только по Boost.Test
+# gcovr -r . build/boost --exclude '.*tests_.*\.cpp$' --html-details -o build/boost/coverage.html
+# xdg-open build/boost/coverage.html
+
+# ВАЖНО:
+# Старый coverage_report.html в корне 3laba эти команды не изменяют.
+# Свежий отчёт открывай только из build/coverage_report.html.
+# 85% — целевой показатель, но его ещё нужно достичь тестами.
+# Если gcovr не установлен: sudo apt install gcovr
