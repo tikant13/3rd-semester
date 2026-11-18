@@ -1,0 +1,19 @@
+cd ~/3st-semester/3laba
+
+g++ -std=c++17 main.cpp array.cpp linkedList.cpp doublyList.cpp stack.cpp Queue.cpp Rbtree.cpp Chaintable.cpp Cuckootable.cpp -o dbms
+
+./dbms --file data.txt --query 'SPUSH mystack first'
+./dbms --file data.txt --query 'SPUSH mystack second'
+./dbms --file data.txt --query 'SPOP mystack'
+
+./dbms --file data.bin --format binary --query 'SPUSH mystack first'
+./dbms --file data.bin --format binary --query 'SPUSH mystack second'
+./dbms --file data.bin --format binary --query 'SPEEK mystack'
+
+bash coverage.sh boost
+bash coverage.sh google
+bash coverage.sh catch
+
+xdg-open build/boost/coverage.html
+xdg-open build/google/coverage.html
+xdg-open build/catch/coverage.html

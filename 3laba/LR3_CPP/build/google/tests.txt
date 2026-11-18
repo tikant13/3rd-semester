@@ -1,0 +1,165 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 60 tests from 9 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from ArrayTest
+[ RUN      ] ArrayTest.Empty
+[       OK ] ArrayTest.Empty (0 ms)
+[ RUN      ] ArrayTest.InsertAndDelete
+[       OK ] ArrayTest.InsertAndDelete (0 ms)
+[ RUN      ] ArrayTest.InvalidIndexes
+[       OK ] ArrayTest.InvalidIndexes (0 ms)
+[ RUN      ] ArrayTest.GrowthAndReset
+[       OK ] ArrayTest.GrowthAndReset (0 ms)
+[ RUN      ] ArrayTest.PrintAndGet
+[       OK ] ArrayTest.PrintAndGet (0 ms)
+[ RUN      ] ArrayTest.InsertAtEndAndFull
+[       OK ] ArrayTest.InsertAtEndAndFull (0 ms)
+[----------] 6 tests from ArrayTest (0 ms total)
+
+[----------] 8 tests from LinkedListTest
+[ RUN      ] LinkedListTest.Empty
+[       OK ] LinkedListTest.Empty (0 ms)
+[ RUN      ] LinkedListTest.Insert
+[       OK ] LinkedListTest.Insert (0 ms)
+[ RUN      ] LinkedListTest.Delete
+[       OK ] LinkedListTest.Delete (0 ms)
+[ RUN      ] LinkedListTest.EmptyOperations
+[       OK ] LinkedListTest.EmptyOperations (0 ms)
+[ RUN      ] LinkedListTest.PrintAndGet
+[       OK ] LinkedListTest.PrintAndGet (0 ms)
+[ RUN      ] LinkedListTest.FirstLastAndMissing
+[       OK ] LinkedListTest.FirstLastAndMissing (0 ms)
+[ RUN      ] LinkedListTest.SingleElement
+[       OK ] LinkedListTest.SingleElement (0 ms)
+[ RUN      ] LinkedListTest.DeleteNeighbours
+[       OK ] LinkedListTest.DeleteNeighbours (0 ms)
+[----------] 8 tests from LinkedListTest (0 ms total)
+
+[----------] 8 tests from DoublyListTest
+[ RUN      ] DoublyListTest.Empty
+[       OK ] DoublyListTest.Empty (0 ms)
+[ RUN      ] DoublyListTest.Insert
+[       OK ] DoublyListTest.Insert (0 ms)
+[ RUN      ] DoublyListTest.Delete
+[       OK ] DoublyListTest.Delete (0 ms)
+[ RUN      ] DoublyListTest.EmptyOperations
+Error!
+Error!
+Error!
+Error!
+Error!
+Error!
+Error!
+Error!
+Error!
+[       OK ] DoublyListTest.EmptyOperations (0 ms)
+[ RUN      ] DoublyListTest.Output
+[       OK ] DoublyListTest.Output (0 ms)
+[ RUN      ] DoublyListTest.FirstAndLast
+[       OK ] DoublyListTest.FirstAndLast (0 ms)
+[ RUN      ] DoublyListTest.DeleteValues
+Error!
+Error!
+Error!
+[       OK ] DoublyListTest.DeleteValues (0 ms)
+[ RUN      ] DoublyListTest.Neighbours
+[       OK ] DoublyListTest.Neighbours (0 ms)
+[----------] 8 tests from DoublyListTest (0 ms total)
+
+[----------] 4 tests from StackTest
+[ RUN      ] StackTest.Empty
+[       OK ] StackTest.Empty (0 ms)
+[ RUN      ] StackTest.PushPop
+[       OK ] StackTest.PushPop (0 ms)
+[ RUN      ] StackTest.EmptyOutput
+[       OK ] StackTest.EmptyOutput (0 ms)
+[ RUN      ] StackTest.OutputAndOrder
+[       OK ] StackTest.OutputAndOrder (0 ms)
+[----------] 4 tests from StackTest (0 ms total)
+
+[----------] 4 tests from QueueTest
+[ RUN      ] QueueTest.Empty
+[       OK ] QueueTest.Empty (0 ms)
+[ RUN      ] QueueTest.FirstInFirstOut
+[       OK ] QueueTest.FirstInFirstOut (0 ms)
+[ RUN      ] QueueTest.EmptyOutput
+[       OK ] QueueTest.EmptyOutput (0 ms)
+[ RUN      ] QueueTest.OutputAndOrder
+[       OK ] QueueTest.OutputAndOrder (0 ms)
+[----------] 4 tests from QueueTest (0 ms total)
+
+[----------] 10 tests from RBTreeTest
+[ RUN      ] RBTreeTest.Empty
+[       OK ] RBTreeTest.Empty (0 ms)
+[ RUN      ] RBTreeTest.InsertAndSearch
+[       OK ] RBTreeTest.InsertAndSearch (0 ms)
+[ RUN      ] RBTreeTest.Remove
+[       OK ] RBTreeTest.Remove (0 ms)
+[ RUN      ] RBTreeTest.EmptyOutput
+[       OK ] RBTreeTest.EmptyOutput (0 ms)
+[ RUN      ] RBTreeTest.Traversals
+[       OK ] RBTreeTest.Traversals (0 ms)
+[ RUN      ] RBTreeTest.LoadAndSave
+[       OK ] RBTreeTest.LoadAndSave (0 ms)
+[ RUN      ] RBTreeTest.InsertRotations
+[       OK ] RBTreeTest.InsertRotations (0 ms)
+[ RUN      ] RBTreeTest.RemoveRootCases
+[       OK ] RBTreeTest.RemoveRootCases (0 ms)
+[ RUN      ] RBTreeTest.RemoveMany
+[       OK ] RBTreeTest.RemoveMany (0 ms)
+[ RUN      ] RBTreeTest.RemoveReverse
+[       OK ] RBTreeTest.RemoveReverse (0 ms)
+[----------] 10 tests from RBTreeTest (0 ms total)
+
+[----------] 5 tests from ChainTableTest
+[ RUN      ] ChainTableTest.InsertAndGet
+[       OK ] ChainTableTest.InsertAndGet (0 ms)
+[ RUN      ] ChainTableTest.UpdateAndDelete
+[       OK ] ChainTableTest.UpdateAndDelete (0 ms)
+[ RUN      ] ChainTableTest.Rehash
+[       OK ] ChainTableTest.Rehash (0 ms)
+[ RUN      ] ChainTableTest.EmptyAndPrint
+[       OK ] ChainTableTest.EmptyAndPrint (0 ms)
+[ RUN      ] ChainTableTest.CollisionsAndPrint
+[       OK ] ChainTableTest.CollisionsAndPrint (0 ms)
+[----------] 5 tests from ChainTableTest (0 ms total)
+
+[----------] 6 tests from CuckooTableTest
+[ RUN      ] CuckooTableTest.InsertAndGet
+[       OK ] CuckooTableTest.InsertAndGet (0 ms)
+[ RUN      ] CuckooTableTest.UpdateAndDelete
+[       OK ] CuckooTableTest.UpdateAndDelete (0 ms)
+[ RUN      ] CuckooTableTest.Rehash
+[       OK ] CuckooTableTest.Rehash (0 ms)
+[ RUN      ] CuckooTableTest.EmptyAndPrint
+[       OK ] CuckooTableTest.EmptyAndPrint (0 ms)
+[ RUN      ] CuckooTableTest.SecondTable
+[       OK ] CuckooTableTest.SecondTable (0 ms)
+[ RUN      ] CuckooTableTest.CycleAndRehash
+[       OK ] CuckooTableTest.CycleAndRehash (0 ms)
+[----------] 6 tests from CuckooTableTest (0 ms total)
+
+[----------] 9 tests from SerializationTest
+[ RUN      ] SerializationTest.Array
+[       OK ] SerializationTest.Array (0 ms)
+[ RUN      ] SerializationTest.LinkedList
+[       OK ] SerializationTest.LinkedList (0 ms)
+[ RUN      ] SerializationTest.DoublyList
+[       OK ] SerializationTest.DoublyList (0 ms)
+[ RUN      ] SerializationTest.Stack
+[       OK ] SerializationTest.Stack (0 ms)
+[ RUN      ] SerializationTest.Queue
+[       OK ] SerializationTest.Queue (0 ms)
+[ RUN      ] SerializationTest.RBTree
+[       OK ] SerializationTest.RBTree (0 ms)
+[ RUN      ] SerializationTest.ChainTable
+[       OK ] SerializationTest.ChainTable (0 ms)
+[ RUN      ] SerializationTest.CuckooTable
+[       OK ] SerializationTest.CuckooTable (0 ms)
+[ RUN      ] SerializationTest.Errors
+[       OK ] SerializationTest.Errors (0 ms)
+[----------] 9 tests from SerializationTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 60 tests from 9 test suites ran. (2 ms total)
+[  PASSED  ] 60 tests.
